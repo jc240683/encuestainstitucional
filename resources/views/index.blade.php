@@ -120,15 +120,15 @@
                     --}}
 
 
-                        <li class="nav-item">
+                    <li class="nav-item">
 
-                            <a href="{{ route('login') }}" class="nav-link">
+                        <a href="{{ route('login') }}" class="nav-link">
 
-                                Iniciar sesión
+                            Iniciar sesión
 
-                            </a>
+                        </a>
 
-                        </li>
+                    </li>
                 </ul>
 
             </div>
