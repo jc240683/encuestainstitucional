@@ -119,7 +119,6 @@
 
                     --}}
 
-                    @guest
 
                         <li class="nav-item">
 
@@ -130,10 +129,6 @@
                             </a>
 
                         </li>
-
-                    @endguest
-
-
                 </ul>
 
             </div>

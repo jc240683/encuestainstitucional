@@ -3,24 +3,85 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Respuesta; /* se agrega */
+use App\Models\Encuesta;
+use App\Models\Respuesta;
 use Illuminate\Http\Request;
 
 class ResultadosController extends Controller
 {
-    //
     public function index(Request $request)
     {
 
         /*
         |--------------------------------------------------------------------------
-
-        get y latest: obtiene y ordena una coleccion de registros(arreglo) del más reciente al más antiguo.
-
+        | Obtener la encuesta activa
         |--------------------------------------------------------------------------
+        |
+        | Buscamos en la tabla "encuestas" aquella encuesta
+        | cuyo campo "activa" tenga el valor true (1).
+        |
+        | first() obtiene solamente el primer registro encontrado.
+        |
         */
+        $encuestaActiva = Encuesta::where('estado', true)->first();
 
-        $respuestas = Respuesta::latest()->get();
+        /*
+        |--------------------------------------------------------------------------
+        | Verificar si existe una encuesta activa
+        |--------------------------------------------------------------------------
+        |
+        | Si no existe ninguna encuesta activa, detenemos el proceso
+        | y mostramos un mensaje al usuario.
+        |
+        */
+        if (!$encuestaActiva) {
+            return back()->with('error', 'No hay ninguna encuesta activa.');
+        }
+/*
+       /*
+        |--------------------------------------------------------------------------
+        | Obtener las respuestas de la encuesta activa
+        |--------------------------------------------------------------------------
+        |
+        | respuestas()
+        |
+        | Es la relación que definimos en el modelo Encuesta:
+        |
+        | public function respuestas()
+        | {
+        |     return $this->hasMany(Respuesta::class);
+        | }
+        |
+        | Esto significa:
+        |
+        | "Obtén todas las respuestas que pertenecen
+        | a esta encuesta".
+        |
+        */
+        $respuestas = $encuestaActiva->respuestas()
+              /*
+            |--------------------------------------------------------------------------
+            | latest()
+            |--------------------------------------------------------------------------            |
+            | Ordena las respuestas de la más reciente
+            | a la más antigua.
+            |
+            | Por defecto Laravel utiliza el campo "created_at".
+            */
+            ->latest()
+
+             /*
+            |--------------------------------------------------------------------------
+            | get()
+            |--------------------------------------------------------------------------
+            |
+            | Ejecuta finalmente la consulta a la base de datos
+            | y obtiene las respuestas.
+            |
+            | Los resultados se almacenan en la variable: $respuestas            |
+            */
+
+            ->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -127,7 +188,12 @@ class ResultadosController extends Controller
                 $valor = $respuesta->$pregunta;
 
 
-                // Verificar que exista una respuesta
+                /*
+                |--------------------------------------------------------------------------
+                | Verificar que exista una respuesta
+                |--------------------------------------------------------------------------
+                */
+
                 if ($valor !== null && $valor !== '') {
 
                     $totalRespuestas++;
@@ -139,7 +205,10 @@ class ResultadosController extends Controller
                     |--------------------------------------------------------------------------
                     */
 
-                    if (in_array($valor, $positivas[$pregunta])) {
+                    if (in_array(
+                        $valor,
+                        $positivas[$pregunta]
+                    )) {
 
                         $respuestasPositivas++;
                         $positivasPregunta++;
@@ -177,9 +246,13 @@ class ResultadosController extends Controller
             */
 
             $resultadosPreguntas[$pregunta] = [
+
                 'positivas' => $positivasPregunta,
+
                 'negativas' => $negativasPregunta,
+
                 'total' => $totalPregunta,
+
                 'porcentaje' => $porcentajePregunta,
             ];
         }
@@ -251,26 +324,30 @@ class ResultadosController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        return view('admin.resultados.index', compact(
+        return view(
+            'admin.resultados.index',
+            compact(
 
-            'respuestas',
+                'encuestaActiva',
 
-            'totalEncuestas',
+                'respuestas',
 
-            'totalRespuestas',
+                'totalEncuestas',
 
-            'respuestasPositivas',
+                'totalRespuestas',
 
-            'respuestasNegativas',
+                'respuestasPositivas',
 
-            'satisfaccion',
+                'respuestasNegativas',
 
-            'evaluacionGeneral',
+                'satisfaccion',
 
-            'resultadosPreguntas',
+                'evaluacionGeneral',
 
-            'textosPreguntas'
+                'resultadosPreguntas',
 
-        ));
+                'textosPreguntas'
+            )
+        );
     }
 }

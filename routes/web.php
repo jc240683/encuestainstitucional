@@ -23,9 +23,9 @@ Route::view('/gracias', 'gracias')
 
 /* Panel administrativo de las encuestas */
 
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth'])->name('admin.')->group(function () {
 
-/* ruta para gestionar encuestas */
+/* rutas para gestionar el Panel de encuestas(index, create, store, show, edit, update, destroy) */
     Route::resource('encuestas', AdminEncuestaController::class);
 
 /* ruta para activar encuesta */

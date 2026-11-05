@@ -1,61 +1,95 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="h4 mb-0">
             Información de la encuesta
         </h2>
     </x-slot>
 
-    <div class="py-4">
+    <div class="container py-4">
 
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+        <div class="row justify-content-center">
 
-            <div class="card">
+            <div class="col-md-8">
 
-                <div class="card-header">
-                    Encuesta institucional
-                </div>
+                <div class="card shadow-sm">
 
-                <div class="card-body">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            Encuesta institucional
+                        </h5>
+                    </div>
 
-                    <p>
-                        <strong>ID:</strong>
-                        {{ $encuesta->id }}
-                    </p>
+                    <div class="card-body">
 
-                    <p>
-                        <strong>Año:</strong>
-                        {{ $encuesta->anio }}
-                    </p>
+                        <div class="row mb-3">
 
-                    <p>
-                        <strong>Estado:</strong>
+                            <div class="col-md-4 fw-bold">
+                                ID:
+                            </div>
 
-                        @if ($encuesta->estado)
+                            <div class="col-md-8">
+                                {{ $encuesta->id }}
+                            </div>
 
-                            <span class="badge bg-success">
-                                Activa
-                            </span>
+                        </div>
 
-                        @else
+                        <div class="row mb-3">
 
-                            <span class="badge bg-secondary">
-                                Cerrada
-                            </span>
+                            <div class="col-md-4 fw-bold">
+                                Año:
+                            </div>
 
-                        @endif
+                            <div class="col-md-8">
+                                {{ $encuesta->anio }}
+                            </div>
 
-                    </p>
+                        </div>
 
-                    <p>
-                        <strong>Creada:</strong>
-                        {{ $encuesta->created_at->format('d/m/Y H:i') }}
-                    </p>
+                        <div class="row mb-3">
 
-                    <a href="{{ route('admin.encuestas.index') }}"
-                       class="btn btn-secondary">
-                        Regresar
-                    </a>
+                            <div class="col-md-4 fw-bold">
+                                Estado:
+                            </div>
+
+                            <div class="col-md-8">
+
+                                @if ($encuesta->estado)
+                                    <span class="badge bg-success">
+                                        Activa
+                                    </span>
+                                @else
+                                    <span class="badge bg-secondary">
+                                        Cerrada
+                                    </span>
+                                @endif
+
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-4">
+
+                            <div class="col-md-4 fw-bold">
+                                Creada:
+                            </div>
+
+                            <div class="col-md-8">
+                                {{ $encuesta->created_at->format('d/m/Y H:i') }}
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+
+                            <a href="{{ route('admin.encuestas.index') }}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i>
+                                Regresar
+                            </a>
+
+                        </div>
+
+                    </div>
 
                 </div>
 

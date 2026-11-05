@@ -1,69 +1,68 @@
 <x-app-layout>
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="h4 mb-0">
             Editar encuesta
         </h2>
     </x-slot>
 
-    <div class="py-4">
+    <div class="container py-4">
 
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
+        <div class="row justify-content-center">
 
-            <div class="card">
+            <div class="col-md-8">
 
-                <div class="card-header">
-                    Editar encuesta {{ $encuesta->anio }}
-                </div>
+                <div class="card shadow-sm">
 
-                <div class="card-body">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            Editar encuesta {{ $encuesta->anio }}
+                        </h5>
+                    </div>
 
-                    <form action="{{ route('admin.encuestas.update', $encuesta) }}"
-                          method="POST">
+                    <div class="card-body">
 
-                        @csrf
-                        @method('PUT')
+                        <form action="{{ route('admin.encuestas.update', $encuesta) }}" method="POST">
 
-                        <div class="mb-3">
+                            @csrf
+                            @method('PUT')
 
-                            <label for="anio" class="form-label">
-                                Año
-                            </label>
+                            {{-- Campo año --}}
+                            <div class="mb-3">
 
-                            <input
-                                type="number"
-                                name="anio"
-                                id="anio"
-                                class="form-control @error('anio') is-invalid @enderror"
-                                value="{{ old('anio', $encuesta->anio) }}"
-                                min="2020"
-                                max="2100"
-                                required
-                            >
+                                <label for="anio" class="form-label fw-bold">
+                                    Año
+                                </label>
 
-                            @error('anio')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                                <input type="number" name="anio" id="anio"
+                                    class="form-control @error('anio') is-invalid @enderror"
+                                    value="{{ old('anio', $encuesta->anio) }}" min="2020" max="2100" required>
 
-                        </div>
+                                {{-- Mensaje de error --}}
+                                @error('anio')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
 
-                        <div class="d-flex gap-2">
+                            </div>
 
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Guardar cambios
-                            </button>
+                            {{-- Botones --}}
+                            <div class="d-flex justify-content-end gap-2">
 
-                            <a href="{{ route('admin.encuestas.index') }}"
-                               class="btn btn-secondary">
-                                Cancelar
-                            </a>
+                                <a href="{{ route('admin.encuestas.index') }}" class="btn btn-secondary">
+                                    Cancelar
+                                </a>
 
-                        </div>
+                                <button type="submit" class="btn btn-primary">
+                                    Guardar cambios
+                                </button>
 
-                    </form>
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 

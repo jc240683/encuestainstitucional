@@ -11,7 +11,7 @@ class EncuestaController extends Controller
     /* Muestra la encuesta que este activa */
     public function index()
     {
-        /* Consulta en la base de datos la encuesta activa */
+        /* Consulta a la base de datos la encuesta activa para el formulario */
         $encuesta = Encuesta::where('estado', true)->first();
 
         return view('index');
